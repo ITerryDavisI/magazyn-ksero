@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Edytuj kserokopiarkę</title>
+    <link rel="stylesheet" href="{% static 'copiers/style.css' %}">
+</head>
+<body>
+
+<div class="form-wrapper">
+
+    <h1>✏️ Edytuj kserokopiarkę</h1>
+    <p class="subtitle">
+        Edytujesz: <strong>{{ copier.brand }} {{ copier.model }}</strong><br>
+        Numer seryjny: {{ copier.serial_number }}
+    </p>
+
+    {% if form.errors %}
+        {{ form.errors }}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-grid">
+
+            <!-- MARKA -->
+            <div>
+                <label for="id_brand">Marka</label>
+                {{ form.brand }}
+            </div>
+
+            <!-- MODEL -->
+            <div>
+                <label for="id_model">Model</label>
+                {{ form.model }}
+            </div>
+
+            <!-- SERIAL -->
+            <div class="form-full">
+                <label for="id_serial_number">Numer seryjny</label>
+                {{ form.serial_number }}
+            </div>
+
+            <!-- LICZNIKI -->
+            <div class="form-full counters">
+                <div>
+                    <label for="id_total_counter">Przebieg</label>
+                    {{ form.total_counter }}
+                </div>
+
+                <div>
+                    <label for="id_mono_counter">Mono</label>
+                    {{ form.mono_counter }}
+                </div>
+
+                <div>
+                    <label for="id_color_counter">Kolor</label>
+                    {{ form.color_counter }}
+                </div>
+            </div>
+
+            <!-- GOTOWA -->
+            <div class="form-full checkbox-row">
+                <label for="id_ready">Gotowa</label> {{ form.ready }}
+               
+            </div>
+
+            <!-- UWAGI -->
+            <div class="form-full">
+                <label for="id_notes">Uwagi</label>
+                {{ form.notes }}
+            </div>
+
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="form-actions">
+            <button type="submit" class="btn-save">💾 Zapisz zmiany</button>
+            <a href="{% url 'home' %}" class="back-link">← Powrót do listy</a>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Magazyn kserokopiarek</title>
+    <link rel="stylesheet" href="{% static 'copiers/style.css' %}">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="top-header">
+    <h1 class="app-title">📦 Magazyn kserokopiarek</h1>
+</header>
+
+<p style="margin: 10px 0; font-weight: bold;">
+    📦 Łącznie kserokopiarek: {{ copiers_count }}
+</p>
+
+
+<!-- USER BAR -->
+<div class="user-bar">
+    <div class="user-info">
+        <span class="label">Zalogowany jako:</span>
+        <span class="user-name">{{ user.username }}</span>
+
+        {% if is_super_admin %}
+            <span class="badge super">SUPER ADMIN</span>
+        {% elif is_admin %}
+            <span class="badge admin">ADMIN</span>
+        {% elif is_serwisant %}
+            <span class="badge serwis">SERWISANT</span>
+        {% endif %}
+    </div>
+
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="logout-btn">⏻ Wyloguj</button>
+    </form>
+</div>
+
+<!-- CONTENT -->
+<main class="container">
+
+{% if is_admin %}
+    <a class="add-link" href="{% url 'add_copier' %}">➕ Dodaj kserokopiarkę</a>
+{% endif %}
+
+<h2>Lista kserokopiarek</h2>
+
+{% if copiers %}
+<table>
+    <thead>
+        <tr>
+            <th>Marka</th>
+            <th>Model</th>
+            <th>Numer seryjny</th>
+            <th>Przebieg</th>
+            <th>Mono</th>
+            <th>Kolor</th>
+            <th>Gotowa</th>
+            <th>Uwagi</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for copier in copiers %}
+        <tr>
+            <td>{{ copier.brand }}</td>
+            <td>{{ copier.model }}</td>
+            <td>{{ copier.serial_number }}</td>
+            <td>{{ copier.total_counter }}</td>
+            <td>{{ copier.mono_counter }}</td>
+            <td>{{ copier.color_counter }}</td>
+            <td class="{% if copier.ready %}status-yes{% else %}status-no{% endif %}">
+                {% if copier.ready %}✔{% else %}✖{% endif %}
+            </td>
+            <td>{{ copier.notes|default:"—" }}</td>
+            <td class="actions">
+                {% if is_admin %}
+                    <a href="{% url 'edit_copier' copier.id %}">✏️</a>
+                    <a class="delete" href="{% url 'confirm_delete_copier' copier.id %}">🗑</a>
+                {% else %}
+                    —
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Brak kserokopiarek w bazie.</p>
+{% endif %}
+
+</main>
+
+</body>
+</html>

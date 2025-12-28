@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Potwierdź usunięcie</title>
+    <link rel="stylesheet" href="{% static 'copiers/style.css' %}">
+</head>
+<body>
+
+<div class="confirm-box">
+    <h2>🗑 Potwierdź usunięcie</h2>
+
+    <p>
+        Czy na pewno chcesz usunąć kserokopiarkę:
+        <strong>{{ copier.brand }} {{ copier.model }}</strong><br>
+        Numer seryjny: <strong>{{ copier.serial_number }}</strong>
+    </p>
+
+    <div class="confirm-actions">
+        <form method="post" action="{% url 'delete_copier' copier.id %}">
+            {% csrf_token %}
+            <button type="submit" class="danger">TAK – usuń</button>
+        </form>
+
+        <a href="{% url 'home' %}" class="cancel">Anuluj</a>
+    </div>
+</div>
+
+</body>
+</html>
