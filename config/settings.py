@@ -143,3 +143,6 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 
 
+ALLOWED_HOSTS = [
+    "magazyn-ksero.onrender.com",
+]
