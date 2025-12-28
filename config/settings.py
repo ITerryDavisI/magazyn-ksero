@@ -13,15 +13,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 
 
-from pathlib import Path
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    BASE_DIR / 'copiers' / 'static',
-]
 
 
 from pathlib import Path
@@ -39,7 +30,7 @@ SECRET_KEY = 'django-insecure-v9hv%phy&acgpq*4@urlpj9!c#30w+d=w!j8f#6cqjm-77@nks
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -128,8 +119,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
+# Static files
+STATIC_URL = '/static/'
 
-STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'copiers' / 'static',
+
+]
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -143,6 +143,4 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 
 
-ALLOWED_HOSTS = [
-    "magazyn-ksero.onrender.com",
-]
+ALLOWED_HOSTS = ["*"]
